@@ -41,34 +41,6 @@ class Library
     }
 
     /**
-     * Should add the given book to the library.
-     * If the book already exists, it should increment the count of that book in the library.
-     *
-     * @param Book $book
-     *
-     * @return Library
-     */
-    public function addBook(Book $book): Library
-    {
-    }
-
-    /**
-     * Should attempt to remove the given book from the library
-     * Should throw a BookNotFoundException if the book isn't in the library
-     * Should throw a NoAvailableCopyException if there are no available copies of the book.
-     * If there is more than one copy of the book, it should just lower the count of that book in the library.
-     *
-     * @param Book $book
-     *
-     * @return Library
-     * @throws BookNotFoundException
-     * @throws NoAvailableCopyException
-     */
-    public function removeBook(Book $book): Library
-    {
-    }
-
-    /**
      * Should attempt to check out a book
      *     If successful, return true
      *     Otherwise, return false
