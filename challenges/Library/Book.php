@@ -85,28 +85,6 @@ class Book
     }
 
     /**
-     * Adds a copy of the book
-     *
-     * @return Book
-     */
-    public function addCopy(): Book
-    {
-    }
-
-    /**
-     * Removes a copy of the book
-     * Should throw a NotEnoughCopiesException if there are less than or only one copy
-     * Should throw an NoAvailableCopyException if there are no available copies
-     *
-     * @return Book
-     * @throws NoAvailableCopyException
-     * @throws NotEnoughCopiesException
-     */
-    public function removeCopy(): Book
-    {
-    }
-
-    /**
      * Should return true if there are any checked-in copies of the book
      *
      * @return bool

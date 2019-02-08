@@ -85,42 +85,6 @@ class BookTest extends TestCase
         $this->assertFalse($book->isAvailable());
     }
 
-    public function testAddCopy()
-    {
-        $book = $this->getBook();
-        $this->assertEquals(1, $book->getNumberOfCopies());
-        $response = $book->addCopy();
-
-        $this->assertEquals($book, $response);
-        $this->assertEquals(2, $book->getNumberOfCopies());
-    }
-
-    public function testRemoveCopySuccess()
-    {
-        $book = $this->getBook('book', 1, 2);
-        $this->assertEquals(2, $book->getNumberOfCopies());
-        $response = $book->removeCopy();
-
-        $this->assertEquals($book, $response);
-        $this->assertEquals(1, $book->getNumberOfCopies());
-    }
-
-    public function testRemoveCopyFailureNoneAvailable()
-    {
-        $book = $this->getBook('book', 1, 2);
-        $book->checkOutCopy('patron1');
-        $book->checkOutCopy('patron2');
-        $this->expectExceptionObject(new NoAvailableCopyException());
-        $book->removeCopy();
-    }
-
-    public function testRemoveCopyFailureNotEnoughCopies()
-    {
-        $book = $this->getBook('book', 1, 1);
-        $this->expectExceptionObject(new NotEnoughCopiesException());
-        $book->removeCopy();
-    }
-
     public function testEquals()
     {
         $bookOne = $this->getBook('one');
