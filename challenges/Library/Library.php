@@ -75,12 +75,11 @@ class Library
      * If that book isn't in the library, throw a BookNotFoundException
      *
      * @param Book   $book
-     * @param string $patron
      *
      * @return bool
      * @throws BookNotFoundException
      */
-    public function checkOutBook(Book $book, string $patron): bool
+    public function checkOutBook(Book $book): bool
     {
     }
 
@@ -91,12 +90,11 @@ class Library
      * If that book isn't in the library, throw a BookNotFoundException
      *
      * @param Book   $book
-     * @param string $patron
      *
      * @return bool
      * @throws BookNotFoundException
      */
-    public function checkInBook(Book $book, string $patron): bool
+    public function checkInBook(Book $book): bool
     {
     }
 

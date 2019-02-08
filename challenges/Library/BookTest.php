@@ -77,14 +77,6 @@ class BookTest extends TestCase
         $this->assertTrue($response);
     }
 
-    public function testCheckInCopyFailure()
-    {
-        $book     = $this->getBook('book', 1, 0);
-        $response = $book->checkInCopy('patron');
-
-        $this->assertFalse($response);
-    }
-
     public function testIsAvailable()
     {
         $book = $this->getBook('book', 1, 1);

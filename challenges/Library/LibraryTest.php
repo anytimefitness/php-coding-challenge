@@ -21,9 +21,14 @@ class LibraryTest extends TestCase
         return new Book($type, $type.'Author', $type.'Genre', $pages, $copies);
     }
 
+    private function getLibrary(?array $books = []): Library
+    {
+        return new Library($books);
+    }
+
     public function testConstructorNoBooks()
     {
-        $library = new Library();
+        $library = $this->getLibrary();
 
         $this->assertEmpty($library->getBooks());
     }
@@ -31,7 +36,7 @@ class LibraryTest extends TestCase
     public function testConstructorBooks()
     {
         $book    = $this->getBook();
-        $library = new Library([$book]);
+        $library = $this->getLibrary([$book]);
 
         $this->assertNotEmpty($library->getBooks());
     }
@@ -39,7 +44,7 @@ class LibraryTest extends TestCase
     public function testGetBooks()
     {
         $book    = $this->getBook();
-        $library = new Library([$book]);
+        $library = $this->getLibrary([$book]);
 
         $this->assertEquals(1, count($library->getBooks()));
         $this->assertEquals($book, $library->getBooks()[0]);
@@ -49,7 +54,7 @@ class LibraryTest extends TestCase
             $book = $this->getBook('two'),
             $book = $this->getBook('three'),
         ];
-        $library = new Library($books);
+        $library = $this->getLibrary($books);
 
         $this->assertEquals(3, count($library->getBooks()));
         foreach ($books as $index => $book) {
@@ -62,7 +67,7 @@ class LibraryTest extends TestCase
         $goodBook = $this->getBook('good');
 
         $badBook = $this->getBook('bad');
-        $library = new Library([$goodBook]);
+        $library = $this->getLibrary([$goodBook]);
 
         $this->assertEquals($goodBook, $library->getBook($goodBook));
         $this->assertNull($library->getBook($badBook));
@@ -70,7 +75,7 @@ class LibraryTest extends TestCase
 
     public function testAddBook()
     {
-        $library = new Library();
+        $library = $this->getLibrary();
         $this->assertEmpty($library->getBooks());
 
         $book     = $this->getBook();
@@ -86,7 +91,7 @@ class LibraryTest extends TestCase
     public function testAddBookCopy()
     {
         $book    = $this->getBook();
-        $library = new Library([$book]);
+        $library = $this->getLibrary([$book]);
         $this->assertEquals(1, count($library->getBooks()));
 
         $response = $library->addBook($book);
@@ -99,7 +104,7 @@ class LibraryTest extends TestCase
     public function testRemoveBookSuccess()
     {
         $book    = $this->getBook();
-        $library = new Library([$book]);
+        $library = $this->getLibrary([$book]);
         $this->assertEquals(1, count($library->getBooks()));
 
         $response = $library->removeBook($book);
@@ -110,7 +115,7 @@ class LibraryTest extends TestCase
     public function testRemoveCopySuccess()
     {
         $book    = $this->getBook('book', 1, 2);
-        $library = new Library([$book]);
+        $library = $this->getLibrary([$book]);
         $this->assertEquals(1, count($library->getBooks()));
 
         $response = $library->removeBook($book);
@@ -122,7 +127,7 @@ class LibraryTest extends TestCase
     public function testRemoveBookNoAvailableCopyFailure()
     {
         $book    = $this->getBook('book', 1, 2);
-        $library = new Library([$book]);
+        $library = $this->getLibrary([$book]);
         $book->checkOutCopy('patron1');
         $book->checkOutCopy('patron2');
 
@@ -133,7 +138,7 @@ class LibraryTest extends TestCase
     public function testRemoveBookNotEnoughCopiesSuccess()
     {
         $book    = $this->getBook('book', 1, 1);
-        $library = new Library([$book]);
+        $library = $this->getLibrary([$book]);
 
         $response = $library->removeBook($book);
         $this->assertEquals($library, $response);
@@ -150,7 +155,7 @@ class LibraryTest extends TestCase
             ->method('checkOutCopy')
             ->willReturn(true);
 
-        $library = new Library([$book]);
+        $library = $this->getLibrary([$book]);
 
         $this->assertTrue($library->checkOutBook($book, 'patron'));
     }
@@ -165,7 +170,7 @@ class LibraryTest extends TestCase
             ->method('checkOutCopy')
             ->willReturn(false);
 
-        $library = new Library([$book]);
+        $library = $this->getLibrary([$book]);
 
         $this->assertFalse($library->checkOutBook($book, 'patron'));
     }
@@ -173,7 +178,7 @@ class LibraryTest extends TestCase
     public function testCheckOutBookFailureBookNotFound()
     {
         $book    = $this->getBook();
-        $library = new Library();
+        $library = $this->getLibrary();
 
         $this->expectExceptionObject(new BookNotFoundException());
         $library->checkOutBook($book, 'patron');
@@ -190,7 +195,7 @@ class LibraryTest extends TestCase
             ->method('checkInCopy')
             ->willReturn(true);
 
-        $library = new Library([$book]);
+        $library = $this->getLibrary([$book]);
 
         $this->assertTrue($library->checkInBook($book, 'patron'));
     }
@@ -205,7 +210,7 @@ class LibraryTest extends TestCase
             ->method('checkInCopy')
             ->willReturn(false);
 
-        $library = new Library([$book]);
+        $library = $this->getLibrary([$book]);
 
         $this->assertFalse($library->checkInBook($book, 'patron'));
     }
@@ -213,7 +218,7 @@ class LibraryTest extends TestCase
     public function testCheckInBookFailureBookNotFound()
     {
         $book    = $this->getBook();
-        $library = new Library();
+        $library = $this->getLibrary();
 
         $this->expectExceptionObject(new BookNotFoundException());
         $library->checkInBook($book, 'patron');
@@ -228,7 +233,7 @@ class LibraryTest extends TestCase
         $bookFive = new Book('Test', 'Test', 'Fiction', 1);
         $bookSix = new Book('Test', 'Foobar', 'Fiction', 1);
 
-        $library = new Library([$bookOne, $bookTwo, $bookThree, $bookFour, $bookFive, $bookSix]);
+        $library = $this->getLibrary([$bookOne, $bookTwo, $bookThree, $bookFour, $bookFive, $bookSix]);
         $this->assertEquals(6, count($library->getBooks()));
 
         // Name

@@ -22,11 +22,9 @@ class Book
      *     If successful, return true
      *     Otherwise, return false
      *
-     * @param string $patron
-     *
      * @return bool
      */
-    public function checkOutCopy(string $patron): bool
+    public function checkOutCopy(): bool
     {
     }
 
@@ -35,11 +33,9 @@ class Book
      *     If successful, return true
      *     Otherwise, return false
      *
-     * @param string $patron
-     *
      * @return bool
      */
-    public function checkInCopy(string $patron): bool
+    public function checkInCopy(): bool
     {
     }
 
@@ -127,5 +123,9 @@ class Book
      */
     public function equals(Book $book): bool
     {
+        return $this->getName() === $book->getName()
+            && $this->getAuthor() === $book->getAuthor()
+            && $this->getGenre() === $book->getGenre()
+            && $this->getPages() === $book->getPages();
     }
 }
